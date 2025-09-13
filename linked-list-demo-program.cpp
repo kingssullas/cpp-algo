@@ -136,9 +136,9 @@ void showItems()
     for (int i = 1;; i++)
     {
         cout << "\t" << i << ". " << item->value << "\n";
-        if (item->nextItem == nullptr)
-            break;
         item = item->nextItem;
+        if (!item)
+            break;
     }
 
     cout << endl;
@@ -171,7 +171,7 @@ void showAnItem()
         }
     }
 
-    if (itemNumber != 0 && item)
+    if (itemNumber > 0 && item)
         cout << "-> Item: " << item->value << endl;
     else
     {
