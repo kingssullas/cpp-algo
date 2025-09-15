@@ -10,7 +10,7 @@ using namespace std;
 class LinkedList
 {
 public:
-    int value;
+    string value;
     LinkedList *nextItem;
 };
 
@@ -29,7 +29,7 @@ inline bool validateInput()
     return true;
 }
 
-void printHeading()
+void init()
 {
 #ifdef _WIN32
     SetConsoleOutputCP(CP_UTF8);
@@ -42,7 +42,10 @@ void printHeading()
 #endif
 
     system("title Linked List Demo Program");
+}
 
+void printHeading()
+{
     cout << "\t   ╔═════════════════════════════════╗\n";
     cout << "\t   ║                                 ║\n";
     cout << "\t   ║    Linked List Demo Program     ║\n";
@@ -59,12 +62,22 @@ void clearItem(LinkedList *item);
 
 int main()
 {
+    init();
     printHeading();
+
     while (true)
     {
         int input;
 
-        cout << "What do you want? (n)\n\t1. Add Item\n\t2. Show Items\n\t3. Show an item\n\t4. Clear Memory\n\t5. End Program\n\nCommand (n): ";
+        cout << "What do you want? (n)\n";
+        cout << "\t1. Add Item\n";
+        cout << "\t2. Show Items\n";
+        cout << "\t3. Show an item\n";
+        cout << "\t4. Clear Memory\n";
+        cout << "\t5. Show the Banner\n";
+        cout << "\t6. End Program\n\n";
+        cout << "Command (n): ";
+
         cin >> input;
         cout << endl;
 
@@ -86,6 +99,9 @@ int main()
             clearItem(root);
             break;
         case 5:
+            printHeading();
+            break;
+        case 6:
             cout << "-> Program Ended.\n";
             return 0;
         default:
@@ -96,16 +112,14 @@ int main()
 
 void addItem()
 {
-    int numberItem;
+    string item;
 
-    cout << "Give us a number: ";
-    cin >> numberItem;
-
-    if (!validateInput())
-        return;
+    cout << "Give us an item: ";
+    cin.ignore();
+    getline(cin, item);
 
     LinkedList *newItem = new LinkedList;
-    newItem->value = numberItem;
+    newItem->value = item;
     newItem->nextItem = nullptr;
 
     if (root == nullptr)
