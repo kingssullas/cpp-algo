@@ -1,5 +1,6 @@
 #include <iostream>
 #include <limits>
+#include <sstream>
 
 #ifdef _WIN32
 #include <windows.h>
@@ -17,16 +18,12 @@ public:
 LinkedList *root;
 LinkedList *lastItem;
 
-inline bool validateInput()
+bool isInteger(string &s)
 {
-    if (cin.fail())
-    {
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cout << "-> Invalid input. Please enter a number.\n\n";
-        return false;
-    }
-    return true;
+    stringstream ss(s);
+    int x;
+    char c;
+    return ss >> x && !(ss >> c);
 }
 
 void init()
@@ -67,7 +64,8 @@ int main()
 
     while (true)
     {
-        int input;
+        string input;
+        int command;
 
         cout << "What do you want? (n)\n";
         cout << "\t1. Add Item\n";
@@ -78,13 +76,20 @@ int main()
         cout << "\t6. End Program\n\n";
         cout << "Command (n): ";
 
-        cin >> input;
+        getline(cin, input);
         cout << endl;
 
-        if (!validateInput())
+        if (isInteger(input))
+        {
+            command = stoi(input);
+        }
+        else
+        {
+            cout << "-> That's not a valid input.\n\n";
             continue;
+        }
 
-        switch (input)
+        switch (command)
         {
         case 1:
             addItem();
@@ -115,7 +120,6 @@ void addItem()
     string item;
 
     cout << "Give us an item: ";
-    cin.ignore();
     getline(cin, item);
 
     LinkedList *newItem = new LinkedList;
@@ -167,11 +171,22 @@ void showAnItem()
     }
     cout << "Item number? ";
 
+    string input;
     int itemNumber;
-    cin >> itemNumber;
 
-    if (!validateInput())
+    getline(cin, input);
+    cout << endl;
+
+    if (isInteger(input))
+    {
+        itemNumber = stoi(input);
+    }
+    else
+    {
+        cout << "-> That's not a valid input.\n\n";
         return;
+    }
+
     LinkedList *item = root;
 
     for (int i = 1; i < itemNumber; i++)
