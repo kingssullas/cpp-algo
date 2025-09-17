@@ -107,7 +107,8 @@ int main()
             printHeading();
             break;
         case 6:
-            cout << "-> Program Ended.\n";
+            cout << "-> Program Ended.\n\n";
+            cout << "Copyright © 2025 Ullas Shome. All rights reserved.\n";
             return 0;
         default:
             cout << "-> Not valid input\n\n";
