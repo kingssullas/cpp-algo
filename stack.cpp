@@ -24,20 +24,7 @@ private:
     Node *top = nullptr;
 
 public:
-    ~Stack()
-    {
-        while (top)
-        {
-            Node *node;
-            node = top;
-            top = top->next;
-            delete node;
-        }
-
-        size = 0;
-    }
-
-    void push(string s)
+    void push(const string &s)
     {
         Node *node = new Node(s);
 
@@ -77,7 +64,17 @@ public:
 
     bool isEmpty() const { return !size; }
 
-    int getSize() { return size; }
+    int getSize() const { return size; }
+
+    void clear()
+    {
+        while (!isEmpty())
+        {
+            pop();
+        }
+    }
+
+    Node *getTop() const { return top; }
 };
 
 Stack stack;
@@ -152,19 +149,21 @@ void init()
 
 void showMenu()
 {
-    cout << "What do you want? (n)\n";
+    cout << "Select an option:\n";
     cout << "\t1. Add an Item to the Stack\n";
     cout << "\t2. Show Top Item\n";
-    cout << "\t3. Take Out Top Item\n";
-    cout << "\t4. Check Stack Size\n";
-    cout << "\t5. Clear Stack\n";
-    cout << "\t6. Show the Banner\n";
-    cout << "\t7. End Program\n\n";
+    cout << "\t3. Show Full Stack\n";
+    cout << "\t4. Take Out Top Item\n";
+    cout << "\t5. Check Stack Size\n";
+    cout << "\t6. Clear Stack\n";
+    cout << "\t7. Show the Banner\n";
+    cout << "\t8. End Program\n\n";
     cout << "Command (n): ";
 }
 
 void addItem();
 void top();
+void showFull();
 void pop();
 void stackSize();
 void clearStack();
@@ -180,18 +179,21 @@ inline int checkCommand(int command)
         top();
         break;
     case 3:
-        pop();
+        showFull();
         break;
     case 4:
-        stackSize();
+        pop();
         break;
     case 5:
-        clearStack();
+        stackSize();
         break;
     case 6:
-        printHeading();
+        clearStack();
         break;
     case 7:
+        printHeading();
+        break;
+    case 8:
         cout << "-> Program Ended.\n\n";
         cout << "Copyright © 2025 Ullas Shome. All rights reserved.\n";
         exit(0);
@@ -224,6 +226,26 @@ void top()
     cout << "-> Top Item is: " << stack.peek() << "\n\n";
 }
 
+void showFull()
+{
+    if (stack.isEmpty())
+    {
+        cout << "-> No items to show. :(\n\n";
+        return;
+    }
+
+    cout << "-> Items (from top to bottom):\n";
+    Node *current = stack.getTop();
+
+    for (int i = 1; current; i++)
+    {
+        cout << "\t" << i << ". " << current->value << endl;
+        current = current->next;
+    }
+
+    cout << endl;
+}
+
 void pop()
 {
     if (stack.isEmpty())
@@ -245,6 +267,6 @@ void stackSize()
 
 void clearStack()
 {
-    stack.~Stack();
+    stack.clear();
     cout << "-> Stack memory erased!\n\n";
 }

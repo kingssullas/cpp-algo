@@ -25,20 +25,6 @@ private:
     Node *end = nullptr;
 
 public:
-    ~Queue()
-    {
-        while (front)
-        {
-            Node *node;
-            node = front;
-            front = front->next;
-            delete node;
-        }
-
-        end = nullptr;
-        size = 0;
-    }
-
     void put(const string &s)
     {
         Node *node = new Node(s);
@@ -81,6 +67,16 @@ public:
     bool isEmpty() const { return !size; }
 
     int getSize() const { return size; }
+
+    void clear()
+    {
+        while (!isEmpty())
+        {
+            get();
+        }
+    }
+
+    Node *getFront() const { return front; }
 };
 
 Queue queue;
@@ -155,19 +151,21 @@ void init()
 
 void showMenu()
 {
-    cout << "What do you want? (n)\n";
+    cout << "Select an option:\n";
     cout << "\t1. Add an Item to the Queue\n";
     cout << "\t2. Show Nearest Item\n";
-    cout << "\t3. Take Out Nearest Item\n";
-    cout << "\t4. Check Queue Size\n";
-    cout << "\t5. Clear Queue\n";
-    cout << "\t6. Show the Banner\n";
-    cout << "\t7. End Program\n\n";
+    cout << "\t3. Show Full Queue\n";
+    cout << "\t4. Take Out Nearest Item\n";
+    cout << "\t5. Check Queue Size\n";
+    cout << "\t6. Clear Queue\n";
+    cout << "\t7. Show the Banner\n";
+    cout << "\t8. End Program\n\n";
     cout << "Command (n): ";
 }
 
 void addItem();
 void front();
+void showFull();
 void pop();
 void queueSize();
 void clearQueue();
@@ -183,18 +181,21 @@ inline int checkCommand(int command)
         front();
         break;
     case 3:
-        pop();
+        showFull();
         break;
     case 4:
-        queueSize();
+        pop();
         break;
     case 5:
-        clearQueue();
+        queueSize();
         break;
     case 6:
-        printHeading();
+        clearQueue();
         break;
     case 7:
+        printHeading();
+        break;
+    case 8:
         cout << "-> Program Ended.\n\n";
         cout << "Copyright © 2025 Ullas Shome. All rights reserved.\n";
         exit(0);
@@ -227,6 +228,26 @@ void front()
     cout << "-> Nearest Item is: " << queue.peek() << "\n\n";
 }
 
+void showFull()
+{
+    if (queue.isEmpty())
+    {
+        cout << "-> No items to show. :(\n\n";
+        return;
+    }
+
+    cout << "-> Items (from nearest to farthest):\n";
+    Node *current = queue.getFront();
+
+    for (int i = 1; current; i++)
+    {
+        cout << "\t" << i << ". " << current->value << endl;
+        current = current->next;
+    }
+
+    cout << endl;
+}
+
 void pop()
 {
     if (queue.isEmpty())
@@ -248,6 +269,6 @@ void queueSize()
 
 void clearQueue()
 {
-    queue.~Queue();
+    queue.clear();
     cout << "-> Queue memory erased!\n\n";
 }
